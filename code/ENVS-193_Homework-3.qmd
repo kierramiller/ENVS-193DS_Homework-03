@@ -54,6 +54,11 @@ hist(kelp$kelp_elong)
 ```
 I checked linearity using a scatterplot and assessed the distribution using a histogram. The relationship appears approximately linear with no significant outliers, and the data appear reasonably normally distributed. 
 
+```{r}
+# Run regression 
+model <- lm(kelp_elong ~ temp_c, data = kelp)
+summary(model)
+```
 
 
 
