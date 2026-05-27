@@ -5,9 +5,10 @@ title: "Homework 3_ENVS 193DS"
 format: html
 ---
 
+# Part 1. Set Up 
 
 ```{r}
-# Homework Set Up
+# Homework Set Up and install packages
 library(tidyverse)
 library(here)
 library(janitor)
@@ -42,6 +43,16 @@ ggplot(kelp, aes(x = temp_c, y = kelp_elong)) +
 
 
 ### c. Check your assumptions and run test 
+
+```{r}
+# check relationship 
+plot(kelp$temp_c, kelp$kelp_elong)
+
+# check distribution 
+hist(kelp$kelp_elong)
+
+```
+I checked linearity using a scatterplot and assessed the distribution using a histogram. The relationship appears approximately linear with no significant outliers, and the data appear reasonably normally distributed. 
 
 
 
