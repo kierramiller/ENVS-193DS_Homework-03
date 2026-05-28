@@ -93,6 +93,7 @@ Both Pearson correlation and linear regression led to the same reasonable conclu
 ```{r}
 # Updated visualization plots from Homework 2 
 
+# updating Plot 1 (Categorical) 
 ggplot(my_data_clean, aes(x = class_location, y = ounces_consumed, fill = class_location)) +
   
   # jitter points
@@ -101,7 +102,7 @@ ggplot(my_data_clean, aes(x = class_location, y = ounces_consumed, fill = class_
   # custom colors
   scale_fill_manual(values = c("orchid","skyblue","gold","green","purple","tomato")) +
   
-  # labels + subtitle (REQUIRED)
+  # labels
   labs(
     title = "Caffeine Consumption by Class Location",
     subtitle = "Latest observation: May 28, 2026",
@@ -109,10 +110,10 @@ ggplot(my_data_clean, aes(x = class_location, y = ounces_consumed, fill = class_
     y = "Caffeine Consumed (oz)"
   ) +
   
-  # cleaner theme
+  # clean theme
   theme_classic() +
   
-  # remove clutter + improve readability
+  # formatting
   theme(
     legend.position = "none",
     plot.title = element_text(size = 14, face = "bold"),
@@ -120,8 +121,44 @@ ggplot(my_data_clean, aes(x = class_location, y = ounces_consumed, fill = class_
   )
 ```
 
+```{r}
+# updating Plot 2 (Continuous)
 
-
+ggplot(my_data_clean, aes(x = number_of_classes, y = ounces_consumed)) +
+  
+  # scatter points
+  geom_point(size = 3, color = "darkorange") +
+  
+  # x-axis formatting
+  scale_x_continuous(breaks = c(1, 2, 3)) +
+  
+  # labels
+  labs(
+    title = "Caffeine Consumption and Class Load",
+    subtitle = "Latest observation: May 28, 2026",
+    x = "Number of Classes",
+    y = "Caffeine Consumed (oz)"
+  ) +
+  
+  # clean theme
+  theme_minimal() +
+  
+  # reduce clutter
+  theme(
+    panel.grid.minor = element_blank(),
+    axis.line = element_line(color = "black"),
+    plot.title = element_text(size = 14, face = "bold")
+  )
 
 ```
+
+```
+
+
+
+
+
+
+
+
 
