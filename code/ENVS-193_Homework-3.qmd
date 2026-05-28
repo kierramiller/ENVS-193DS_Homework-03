@@ -14,19 +14,26 @@ library(here)
 library(janitor)
 library(readxl)
 
+# creating object and reading in personal data set 
+my_data <- read_csv("personal-data (2).csv",
+              show_col_types = FALSE,
+                    col_names = TRUE) 
+# clean names
+my_data_clean <- my_data %>%
+  clean_names()
 
 kelp <- read_csv(here("data", "temp-kelp.csv"))
 
 ```
 
 # Part 2. Problems
-## Problem 1. Giant Kelp Fronds
+# Problem 1. Giant Kelp Fronds
 
-### a. Appropriate test 
+## a. Appropriate test 
 
 The appropriate tests would include Pearson correlation and linear regression. Pearson correlation measures the strength and direction of the relationship between temperature and kelp elongation rate, while linear regression models how kelp growth changes with temperature
 
-### b. Visualization 
+## b. Visualization 
 
 ```{r}
 ggplot(kelp, aes(x = temp_c, y = kelp_elong)) +
@@ -42,7 +49,7 @@ ggplot(kelp, aes(x = temp_c, y = kelp_elong)) +
 ```
 
 
-### c. Check your assumptions and run test 
+## c. Check your assumptions and run test 
 
 ```{r}
 # check relationship 
@@ -60,23 +67,58 @@ model <- lm(kelp_elong ~ temp_c, data = kelp)
 summary(model)
 ```
 
+## d. Results communication 
+
+A linear regression was used to test the relationship between temperature and kelp growth. The results show a significant negative relationship (p = 1.366e-05, $R^2$ = 0.473), indicating that as temperature increases, kelp elongation rate decreases. Indicating that temperature does significantly predict kelp elongation rate. 
+
+## e. Test implications 
+
+These results suggest that increasing ocean temperatures may impact kelp growth rates. Since the relationship appears to be negative, warming oceans could reduce kelp productivity, affecting ecosystem health and function. This information can help guide conservation and climate adaptation and management strategies. 
 
 
-### d. Results communication 
+## f. Double check work
 
+```{r}
+# Pearson correlation 
+cor.test(kelp$temp_c,kelp$kelp_elong)
 
+```
 
-### e. Test implications 
+Both Pearson correlation and linear regression led to the same reasonable conclusion about the relationship between temperature and kelp elongation rate. While correlation measures strength and direction, regression additionally quantifies the predictive relationship between variables. 
 
+# Problem 2. Personal Data 
 
+## a. Update plots 
 
+```{r}
+# Updated visualization plots from Homework 2 
 
-### f. Double check work
-
-
-
-
-
+ggplot(my_data_clean, aes(x = class_location, y = ounces_consumed, fill = class_location)) +
+  
+  # jitter points
+  geom_jitter(width = 0.15, size = 3, alpha = 0.8) +
+  
+  # custom colors
+  scale_fill_manual(values = c("orchid","skyblue","gold","green","purple","tomato")) +
+  
+  # labels + subtitle (REQUIRED)
+  labs(
+    title = "Caffeine Consumption by Class Location",
+    subtitle = "Latest observation: May 28, 2026",
+    x = "Class Location",
+    y = "Caffeine Consumed (oz)"
+  ) +
+  
+  # cleaner theme
+  theme_classic() +
+  
+  # remove clutter + improve readability
+  theme(
+    legend.position = "none",
+    plot.title = element_text(size = 14, face = "bold"),
+    axis.text.x = element_text(angle = 30, hjust = 1)
+  )
+```
 
 
 
