@@ -194,13 +194,17 @@ I began by thinking of how I wanted to display the data I have collected, then I
 # Problem 4. Statistical critique 
 
 ## a. Revisit and summarize
+The authors used statistical tests such as linear regression to evaluate relationships between variables and assess how predictors influence response variables. 
+![Figure showing kelp biomass differences among environmental groups](anova_image.png){width=100%}
+
 ## b. Visual clarity 
+The figure presents the data clearly with labeled axes and an approapriate layout. However, while summary statistics are shown, the underlying data points are are not individualized which may limit interpretation. 
+
 ## c. Aesthetic clarity
+The figure includes more than just one response and predictor variable and can become confusing. The data to ink ratio could be improved by emphasizing one aspect of the experiment and minimizing background elements. 
+
 ## d. Recommendations 
-
-
-
-
+The figure could be improved by reducing visual clutter, such as removing excess gridlines and simplifying the design. Adding raw data points alongside summary statistics would improve interpretability, and more intentional color choices could help distinguish groups more effectively. 
 
 
 ```
