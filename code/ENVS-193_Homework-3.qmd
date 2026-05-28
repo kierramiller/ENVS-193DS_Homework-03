@@ -152,7 +152,7 @@ ggplot(my_data_clean, aes(x = number_of_classes, y = ounces_consumed)) +
 
 ```
 
-## b. captions 
+## b. Captions 
 
 Figure 1. Caffeine consumption (oz) varies across class locations. Each point represents an observation day, with jitter applied to reduce overlap. Consumption appears to vary by location, suggesting that where classes are held may influence caffeine intake patterns. 
 
@@ -160,10 +160,27 @@ Figure 2. Caffeine consumption (oz) in relation to number of classes attended pe
 
 
 
+# Problem 3. Affective visualization 
+
+## a. Describe in words what an affective visualization could look like for your personal data 
+
+An affective visualization of my data would highlight how caffeine consumption changes based on academic workload and environment. Instead of focusing only on numerical values, the visualization would emphasize how different days feel, using color intensity or size to represent higher or lower caffeine intake. For example, days with more classes could be represented with darker colors to convey increased stress or fatigue. This approach would help communicate not just the data, but the experience behind the collection process. 
+
+## b. Create a sketch (on paper) of your idea
+## c. Make a draft of the visualization 
+
+## d. Write an artist statement
+## e. Prep materials to share with class
 
 
 
 
+# Problem 4. Statistical critique 
+
+## a. Revisit and summarize
+## b. Visual clarity 
+## c. Aesthetic clarity
+## d. Recommendations 
 
 
 
