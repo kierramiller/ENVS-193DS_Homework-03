@@ -2,7 +2,9 @@
 date: "05/27/2026" 
 author: "Kierra Miller"
 title: "Homework 3_ENVS 193DS"
-format: html
+format:
+  pdf:
+    toc: true
 ---
 
 # Part 1. Set Up 
@@ -15,13 +17,16 @@ library(janitor)
 library(readxl)
 
 # creating object and reading in personal data set 
+
 my_data <- read_csv("personal-data (2).csv",
-              show_col_types = FALSE,
+# editing format of column names               
+show_col_types = FALSE,
                     col_names = TRUE) 
+
 # clean names
 my_data_clean <- my_data %>%
   clean_names()
-
+# insert kelp dataset 
 kelp <- read_csv(here("data", "temp-kelp.csv"))
 
 ```
@@ -36,15 +41,39 @@ The appropriate tests would include Pearson correlation and linear regression. P
 ## b. Visualization 
 
 ```{r}
+# Fit linear model
+kelp_model <- lm(kelp_elong ~ temp_c, data = kelp)
+
+# Create scatterplot + regression line directly from model coefficients
 ggplot(kelp, aes(x = temp_c, y = kelp_elong)) +
-  geom_point(color = "darkgreen") +
-  geom_smooth(method = "lm", color = "blue") +
-  labs(
-    x = "Ocean temperature (°C)",
-    y = "Kelp elongation rate (cm/day)",
-    title = "Kelp growth vs ocean temperature"
+  
+  # Data points
+  geom_point(color = "darkorange", size = 2) +
+  
+  # Regression line (no slope/intercept objects needed)
+  geom_abline(
+    intercept = coef(kelp_model)[1],
+    slope = coef(kelp_model)[2],
+    color = "blue",
+    linewidth = 1
   ) +
-  theme_minimal()
+  
+  # Labels with units
+  labs(
+    x = "Ocean Temperature (°C)",
+    y = "Kelp Frond Elongation Rate (cm/day)",
+    title = "Temperature vs Giant Kelp Growth"
+  ) +
+  
+  # Non-default theme
+  theme_minimal() +
+  
+  # Formatting
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    axis.title = element_text(size = 12),
+    axis.text = element_text(size = 10)
+  )
 
 ```
 
@@ -158,8 +187,6 @@ Figure 1. Caffeine consumption (oz) varies across class locations. Each point re
 
 Figure 2. Caffeine consumption (oz) in relation to number of classes attended per day. Each point represents a single day. While there is some variability, higher class loads may be associated with increased caffeine consumption. 
 
-
-
 # Problem 3. Affective visualization 
 
 ## a. Describe in words what an affective visualization could look like for your personal data 
@@ -195,7 +222,14 @@ I began by thinking of how I wanted to display the data I have collected, then I
 
 ## a. Revisit and summarize
 The authors used statistical tests such as linear regression to evaluate relationships between variables and assess how predictors influence response variables. 
+```{r}
+#| fig-align: center
+#| fig-cap: "Figure showing kelp biomass differences among environmental groups"
+#| out-width: 80%
+```
+
 ![Figure showing kelp biomass differences among environmental groups](anova_image.png){width=100%}
+
 
 ## b. Visual clarity 
 The figure presents the data clearly with labeled axes and an approapriate layout. However, while summary statistics are shown, the underlying data points are are not individualized which may limit interpretation. 
