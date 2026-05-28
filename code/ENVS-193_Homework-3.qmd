@@ -175,13 +175,20 @@ An affective visualization of my data would highlight how caffeine consumption c
 ![Sketch of personal data visualizaton](data_draft-image.jpeg){width=100%}
 
 ## d. Write an artist statement
-
-
+### Content
+This visualization represents daily caffeine consumption in relation to academic workload and class environment, highlighting how different days influence energy needs. 
+### Influences
+I was inspired by projects such as the Dear Data reference project, which incorporated personal story telling into data and statistics, creating a unique visual expression. 
+### Form 
+The piece is a hand-drawn visualization that uses color and sizing to represent variation in caffeine intake based on class environment and academic workload. 
+### Process 
+I began by thinking of how I wanted to display the data I have collected, then I decided to begin sketching how to represent my data visually, I choose to use shapes and colors to translate my dataset into a more expressive format using drawing and blending a traditional figure with creative features. 
 
 
 ## e. Prep materials to share with class
 
-
+## Presentation slides
+[View my slides](https://docs.google.com/presentation/d/1KNW31KE9ZPBMX5z2smX3YD4-acUXB-LkSXRqYDPk5cQ/edit?usp=sharing)
 
 
 # Problem 4. Statistical critique 
