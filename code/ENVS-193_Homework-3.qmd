@@ -152,6 +152,24 @@ ggplot(my_data_clean, aes(x = number_of_classes, y = ounces_consumed)) +
 
 ```
 
+## b. captions 
+
+Figure 1. Caffeine consumption (oz) varies across class locations. Each point represents an observation day, with jitter applied to reduce overlap. Consumption appears to vary by location, suggesting that where classes are held may influence caffeine intake patterns. 
+
+Figure 2. Caffeine consumption (oz) in relation to number of classes attended per day. Each point represents a single day. While there is some variability, higher class loads may be associated with increased caffeine consumption. 
+
+
+
+
+
+
+
+
+
+
+
+
+
 ```
 
 
