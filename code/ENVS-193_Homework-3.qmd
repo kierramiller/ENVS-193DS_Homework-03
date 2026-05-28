@@ -164,12 +164,21 @@ Figure 2. Caffeine consumption (oz) in relation to number of classes attended pe
 
 ## a. Describe in words what an affective visualization could look like for your personal data 
 
-An affective visualization of my data would highlight how caffeine consumption changes based on academic workload and environment. Instead of focusing only on numerical values, the visualization would emphasize how different days feel, using color intensity or size to represent higher or lower caffeine intake. For example, days with more classes could be represented with darker colors to convey increased stress or fatigue. This approach would help communicate not just the data, but the experience behind the collection process. 
+An affective visualization of my data would highlight how caffeine consumption changes based on academic workload and environment. Instead of focusing only on numerical values, the visualization would emphasize how different days feel, using color intensity or size to represent higher or lower caffeine intake. For example, days with more assignments due could be represented with darker colors to convey increased stress or fatigue, and the size of the point represented by a coffee cup could be larger to represent days with a higher number of classes. This approach would help communicate not just the data, but the experience behind the collection process. 
 
 ## b. Create a sketch (on paper) of your idea
+
+![Sketch of personal data visualizaton](data_sketch.jpeg){width=100%}
+
 ## c. Make a draft of the visualization 
 
+![Sketch of personal data visualizaton](data_draft-image.jpeg){width=100%}
+
 ## d. Write an artist statement
+
+
+
+
 ## e. Prep materials to share with class
 
 
