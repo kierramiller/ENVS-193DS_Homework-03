@@ -19,4 +19,4 @@ Additional files:
 
 The final rendered PDF for this assignment can be viewed here:
 
-[View Homework 3 PDF](https://envs193ds.lsit.ucsb.edu/user/kierramiller/rstudio/p/78820348/)
+[View Homework 3 PDF](https://envs193ds.lsit.ucsb.edu/user/kierramiller/rstudio/p/4fce73a8/web/viewer.html)
