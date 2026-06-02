@@ -19,4 +19,4 @@ Additional files:
 
 The final rendered PDF for this assignment can be viewed here:
 
-[View Homework 3 PDF](https://envs193ds.lsit.ucsb.edu/user/kierramiller/rstudio/p/4fce73a8/web/viewer.html)
+[View Homework 3 PDF](https://github.com/kierramiller/ENVS-193DS_Homework-03/blob/main/ENVS-193_Homework-3.pdf)
