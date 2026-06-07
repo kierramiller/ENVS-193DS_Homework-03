@@ -1,16 +1,21 @@
 ---
-date: "05/27/2026" 
+title: "Homework 3"
 author: "Kierra Miller"
-title: "Homework 3_ENVS 193DS"
-format:
-  pdf:
-    toc: true
+date: "05/27/2026"
+format: pdf
+toc: true
+
+execute:
+  warning: false
+  message: false
+  
 ---
 
 # Part 1. Set Up 
 
 ```{r}
 # Homework Set Up and install packages
+library(tinytex) 
 library(tidyverse)
 library(here)
 library(janitor)
@@ -18,7 +23,7 @@ library(readxl)
 
 # creating object and reading in personal data set 
 
-my_data <- read_csv("personal-data (2).csv",
+my_data <- read_csv("datasheet.csv",
 # editing format of column names               
 show_col_types = FALSE,
                     col_names = TRUE) 
@@ -26,6 +31,19 @@ show_col_types = FALSE,
 # clean names
 my_data_clean <- my_data %>%
   clean_names()
+# Make sure ounces_consumed is numeric
+my_data_clean <- my_data_clean %>%
+  mutate(
+    ounces_consumed = as.numeric(ounces_consumed)
+  )
+# Standardize class location names
+my_data_clean <- my_data_clean %>%
+  mutate(
+    class_location = recode(
+      class_location,
+      "Givetz" = "Girvetz"
+    )
+  )
 # insert kelp dataset 
 kelp <- read_csv(here("data", "temp-kelp.csv"))
 
@@ -36,44 +54,24 @@ kelp <- read_csv(here("data", "temp-kelp.csv"))
 
 ## a. Appropriate test 
 
-The appropriate tests would include Pearson correlation and linear regression. Pearson correlation measures the strength and direction of the relationship between temperature and kelp elongation rate, while linear regression models how kelp growth changes with temperature
+The most appropriate test is a Pearson correlation because both temperature and kelp elongation rate are continuous variables. Pearson correlation measures the strength and direction of the linear relationship between two variables. Because the goal is to determine whether temperature is associated with kelp growth rather than predict kelp growth from temperature, correlation is more appropriate than linear regression.
+
 
 ## b. Visualization 
 
 ```{r}
-# Fit linear model
-kelp_model <- lm(kelp_elong ~ temp_c, data = kelp)
-
-# Create scatterplot + regression line directly from model coefficients
+# create scatterplot 
 ggplot(kelp, aes(x = temp_c, y = kelp_elong)) +
-  
-  # Data points
-  geom_point(color = "darkorange", size = 2) +
-  
-  # Regression line (no slope/intercept objects needed)
-  geom_abline(
-    intercept = coef(kelp_model)[1],
-    slope = coef(kelp_model)[2],
-    color = "blue",
-    linewidth = 1
-  ) +
-  
-  # Labels with units
+# plot observations 
+  geom_point(color = "forestgreen", size = 3) +
+  # insert labels for axes and title 
   labs(
     x = "Ocean Temperature (°C)",
     y = "Kelp Frond Elongation Rate (cm/day)",
-    title = "Temperature vs Giant Kelp Growth"
+    title = "Relationship Between Temperature and Kelp Growth"
   ) +
-  
-  # Non-default theme
-  theme_minimal() +
-  
-  # Formatting
-  theme(
-    plot.title = element_text(hjust = 0.5),
-    axis.title = element_text(size = 12),
-    axis.text = element_text(size = 10)
-  )
+  # insert theme
+  theme_minimal()
 
 ```
 
@@ -81,24 +79,28 @@ ggplot(kelp, aes(x = temp_c, y = kelp_elong)) +
 ## c. Check your assumptions and run test 
 
 ```{r}
-# check relationship 
-plot(kelp$temp_c, kelp$kelp_elong)
-
-# check distribution 
-hist(kelp$kelp_elong)
+# check tempertature distribution 
+hist(kelp$temp_c,
+     main = "Temperature Distribution",
+     xlab = "Temperature (°C)")
+# check kelp distribution 
+hist(kelp$kelp_elong,
+     main = "Kelp Elongation Distribution",
+     xlab = "Kelp Elongation (cm/day)")
 
 ```
-I checked linearity using a scatterplot and assessed the distribution using a histogram. The relationship appears approximately linear with no significant outliers, and the data appear reasonably normally distributed. 
+A scatterplot was used to assess whether the relationship between temperature and kelp elongation rate was approximately linear. Histograms were used to examine the distributions of both temperature and kelp elongation rate. The scatterplot suggests a roughly linear relationship, and both variables appear reasonably normally distributed with no extreme outliers. Therefore, the assumptions for Pearson correlation appear to be met.
+
 
 ```{r}
-# Run regression 
-model <- lm(kelp_elong ~ temp_c, data = kelp)
-summary(model)
+# Run correlation test  
+cor.test(kelp$temp_c, kelp$kelp_elong)
 ```
 
 ## d. Results communication 
 
-A linear regression was used to test the relationship between temperature and kelp growth. The results show a significant negative relationship (p = 1.366e-05, $R^2$ = 0.473), indicating that as temperature increases, kelp elongation rate decreases. Indicating that temperature does significantly predict kelp elongation rate. 
+A Pearson correlation showed a significant negative relationship between temperature and kelp elongation rate (Pearson's r = -0.69, t(30) = -5.19, p < 0.001, α = 0.05). This indicates that higher temperatures are associated with lower kelp growth rates. The correlation coefficient suggests a moderate to strong negative relationship between the two variables.
+
 
 ## e. Test implications 
 
@@ -108,84 +110,130 @@ These results suggest that increasing ocean temperatures may impact kelp growth 
 ## f. Double check work
 
 ```{r}
-# Pearson correlation 
-cor.test(kelp$temp_c,kelp$kelp_elong)
-
+# spearman correlation test to double check work
+cor.test(
+  kelp$temp_c,
+  kelp$kelp_elong,
+  method = "spearman"
+)
 ```
 
-Both Pearson correlation and linear regression led to the same reasonable conclusion about the relationship between temperature and kelp elongation rate. While correlation measures strength and direction, regression additionally quantifies the predictive relationship between variables. 
+A Spearman rank correlation was used as a secondary analysis. The Spearman correlation produced the same overall conclusion as the Pearson correlation, indicating a negative relationship between temperature and kelp elongation rate. This agreement between methods increases confidence in the result.
+
 
 # Problem 2. Personal Data 
 
 ## a. Update plots 
 
+
 ```{r}
 # Updated visualization plots from Homework 2 
+# Figure 1: Caffeine consumption by class location attendance
+# create boxplot and jitter plot of caffeine consumption by class location 
+ggplot(
+  my_data_clean,
+  aes(
+    x = class_location,
+    y = ounces_consumed,
+    fill = class_location
+  )
+) +
 
-# updating Plot 1 (Categorical) 
-ggplot(my_data_clean, aes(x = class_location, y = ounces_consumed, fill = class_location)) +
-  
-  # jitter points
-  geom_jitter(width = 0.15, size = 3, alpha = 0.8) +
-  
-  # custom colors
-  scale_fill_manual(values = c("orchid","skyblue","gold","green","purple","tomato")) +
-  
-  # labels
+  # Show distribution of observations within each location 
+  geom_boxplot(
+    alpha = 0.4,
+    outlier.shape = NA
+  ) +
+
+  # Show individual observations
+  geom_jitter(
+    width = 0.10,
+    height = 0,
+    size = 3,
+    alpha = 0.8
+  ) +
+# assign custom colors 
+  scale_fill_manual(
+  values = c(
+    "BSB" = "orchid",
+    "Girvetz" = "skyblue",
+    "HSSB" = "gold",
+    "ILP" = "forestgreen"
+    )
+  ) +
+# add labels for title, subtitle, axes 
   labs(
     title = "Caffeine Consumption by Class Location",
-    subtitle = "Latest observation: May 28, 2026",
+    subtitle = "Individual observations and distributions across locations",
     x = "Class Location",
     y = "Caffeine Consumed (oz)"
   ) +
-  
-  # clean theme
+# apply theme 
   theme_classic() +
-  
-  # formatting
+# customize appearance 
   theme(
     legend.position = "none",
-    plot.title = element_text(size = 14, face = "bold"),
-    axis.text.x = element_text(angle = 30, hjust = 1)
+    plot.title = element_text(
+      size = 14,
+      face = "bold"
+    ),
+    axis.text.x = element_text(
+      angle = 30,
+      hjust = 1
+    )
   )
 ```
 
 ```{r}
 # updating Plot 2 (Continuous)
 
-ggplot(my_data_clean, aes(x = number_of_classes, y = ounces_consumed)) +
-  
-  # scatter points
-  geom_point(size = 3, color = "darkorange") +
-  
-  # x-axis formatting
-  scale_x_continuous(breaks = c(1, 2, 3)) +
-  
-  # labels
+# Plot 2: Caffeine Consumption by Class Type
+# create plot showing caffeine consumption by class subject 
+ggplot(
+  my_data_clean,
+  aes(
+    x = type_of_class,
+    y = ounces_consumed,
+    fill = type_of_class
+  )
+) +
+
+  # show individual observations
+ geom_jitter(
+  width = 0.1,
+  height = 0,
+  size = 3,
+  alpha = 0.8
+) + 
+ # create labels for title, subtitle, axes 
   labs(
-    title = "Caffeine Consumption and Class Load",
-    subtitle = "Latest observation: May 28, 2026",
-    x = "Number of Classes",
+    title = "Caffeine Consumption by Class Type",
+    subtitle = "Daily caffeine intake across different types of classes",
+    x = "Class Subject",
     y = "Caffeine Consumed (oz)"
   ) +
-  
-  # clean theme
-  theme_minimal() +
-  
-  # reduce clutter
+# apply classic theme 
+  theme_classic() +
+# customize appearance 
   theme(
-    panel.grid.minor = element_blank(),
-    axis.line = element_line(color = "black"),
-    plot.title = element_text(size = 14, face = "bold")
+    legend.position = "none",
+    plot.title = element_text(
+      size = 14,
+      face = "bold"
+    ),
+    axis.text.x = element_text(
+      angle = 30,
+      hjust = 1
+    )
   )
 
 ```
 
 ## b. Captions 
 
-Figure 1. Caffeine consumption (oz) varies across class locations. Each point represents an observation day, with jitter applied to reduce overlap. Consumption appears to vary by location, suggesting that where classes are held may influence caffeine intake patterns. 
+Figure 1. Caffeine consumption (oz) across class locations. Each point represents one observation day, and horizontal jitter was applied to reduce overlap while preserving the observed caffeine consumption values. The boxplots summarize the distribution of caffeine consumption at each location. Differences among locations may indicate variation in caffeine intake across learning environments.
 
-Figure 2. Caffeine consumption (oz) in relation to number of classes attended per day. Each point represents a single day. While there is some variability, higher class loads may be associated with increased caffeine consumption. 
+Figure 2. Caffeine consumption (oz) across class subjects. Each point represents one observation day, and horizontal jitter was applied to reduce overlap while preserving the observed caffeine consumption values. Some class subjects appear to be associated with higher caffeine consumption, although additional observations would be needed to determine whether these patterns are consistent.
 
 # Problem 3. Affective visualization 
 
@@ -194,21 +242,33 @@ Figure 2. Caffeine consumption (oz) in relation to number of classes attended pe
 An affective visualization of my data would highlight how caffeine consumption changes based on academic workload and environment. Instead of focusing only on numerical values, the visualization would emphasize how different days feel, using color intensity or size to represent higher or lower caffeine intake. For example, days with more assignments due could be represented with darker colors to convey increased stress or fatigue, and the size of the point represented by a coffee cup could be larger to represent days with a higher number of classes. This approach would help communicate not just the data, but the experience behind the collection process. 
 
 ## b. Create a sketch (on paper) of your idea
-
 ![Sketch of personal data visualizaton](data_sketch.jpeg){width=100%}
 
 ## c. Make a draft of the visualization 
+```{r}
+#| fig-pos: "H"
+#| out-width: "80%"
+#| fig-align: "center"
+```
 
 ![Sketch of personal data visualizaton](data_draft-image.jpeg){width=100%}
 
 ## d. Write an artist statement
+
 ### Content
+
 This visualization represents daily caffeine consumption in relation to academic workload and class environment, highlighting how different days influence energy needs. 
+
 ### Influences
+
 I was inspired by projects such as the Dear Data reference project, which incorporated personal story telling into data and statistics, creating a unique visual expression. 
+
 ### Form 
-The piece is a hand-drawn visualization that uses color and sizing to represent variation in caffeine intake based on class environment and academic workload. 
+
+The piece is a hand-drawn visualization that uses color and sizing to represent variation in caffeine intake based on class environment and academic workload. I used critiques from other classmates to help improve my final product. I will be using R to create the base visualization resembling a typical graph, and then I will be adding artistic elements over a printed copy of the graph showcasing how art and statistics can work together to fully show the data and results to an audience. 
+
 ### Process 
+
 I began by thinking of how I wanted to display the data I have collected, then I decided to begin sketching how to represent my data visually, I choose to use shapes and colors to translate my dataset into a more expressive format using drawing and blending a traditional figure with creative features. 
 
 
@@ -221,27 +281,26 @@ I began by thinking of how I wanted to display the data I have collected, then I
 # Problem 4. Statistical critique 
 
 ## a. Revisit and summarize
-The authors used statistical tests such as linear regression to evaluate relationships between variables and assess how predictors influence response variables. 
-```{r}
-#| fig-align: center
-#| fig-cap: "Figure showing kelp biomass differences among environmental groups"
-#| out-width: 80%
-```
+The authors investigated how environmental variables along temperate rocky coastlines influence kelp forest distribution and biomass. Their main hypothesis was that kelp presence and biomass could be predicted from environmental conditions such as sea surface temperature, nutrient availability, depth, and wave exposure. To address this question, the authors used Analysis of Variance (ANOVA) tests to compare kelp biomass across different environmental conditions and geographic regions. ANOVA allowed the authors to determine whether mean kelp biomass differed significantly among environmental groups and identify which factors were most strongly associated with kelp distribution and productivity.
+
 
 ![Figure showing kelp biomass differences among environmental groups](anova_image.png){width=100%}
 
 
 ## b. Visual clarity 
-The figure presents the data clearly with labeled axes and an approapriate layout. However, while summary statistics are shown, the underlying data points are are not individualized which may limit interpretation. 
+The figure presents the ANOVA results clearly by displaying kelp biomass across environmental groups with labeled axes and an appealing layout. The figure effectively communicates differences among groups using summary statistics, making it easy to compare mean biomass values. However, the underlying raw observations are not shown, making it difficult to assess variability in the groups and the spread of the data. Including individual data points would provide additional context for interpreting the statistical results.
+
 
 ## c. Aesthetic clarity
-The figure includes more than just one response and predictor variable and can become confusing. The data to ink ratio could be improved by emphasizing one aspect of the experiment and minimizing background elements. 
+The figure has a relatively good data-to-ink ratio because most visual elements contribute directly to communicating differences in kelp biomass among environmental groups. However, the emphasis is placed primarily on group summaries rather than the underlying observations. Because only summary statistics are displayed, some information about the distribution of the data is lost. The figure remains readable, but showing the raw data would improve transparency without substantially increasing visual clutter.
+
 
 ## d. Recommendations 
-The figure could be improved by reducing visual clutter, such as removing excess gridlines and simplifying the design. Adding raw data points alongside summary statistics would improve interpretability, and more intentional color choices could help distinguish groups more effectively. 
+I would recommend adding the individual kelp biomass observations to the figure using jittered points overlaid on the group summaries. This would allow readers to evaluate variation within each environmental group and better understand the strength of the patterns reported by the ANOVA. I would also use distinct but colorblind-friendly colors for each environmental group so that comparisons can be made more easily. These changes would improve interpret ability while maintaining a relatively simple and uncluttered design.
 
 
-```
+
+
 
 
 
